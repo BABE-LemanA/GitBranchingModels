@@ -10,11 +10,19 @@ VAR_OUTPUT
 	qMotor	: BOOL;
 END_VAR
 VAR
-	
+	bFlank : ARRAY[0..10] OF BOOL;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[IF bStart AND NOT bStop AND NOT bFlank[0] THEN
+	qMotor := TRUE;
+END_IF
+bFlank[0] := bStart AND NOT bStop;
+
+IF bStop THEN 
+	qMotor := FALSE;
+END_IF
+]]></ST>
     </Implementation>
   </POU>
 </TcPlcObject>
