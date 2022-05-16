@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.11">
+  <POU Name="FB_Motor" Id="{35ea3c71-53d6-4692-9667-037102dc0920}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK FB_Motor
+VAR_INPUT
+	bStart	: BOOL;
+	bStop	: BOOL;
+END_VAR
+VAR_OUTPUT
+	qMotor	: BOOL;
+END_VAR
+VAR
+	bFlank : ARRAY[0..10] OF BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF bStart AND NOT bStop AND NOT bFlank[0] THEN
+	qMotor := TRUE;
+END_IF
+bFlank[0] := bStart AND NOT bStop;
+
+IF bStop THEN 
+	qMotor := FALSE;
+END_IF
+]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
